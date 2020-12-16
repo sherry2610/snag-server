@@ -46,8 +46,9 @@ router.get('/login', (req, res, next) => {
 	})(req, res, next);
 })
 
-router.post('/signup', (req, res, next) => {
+router.post('/signup', (req, res, next) => { // { "email": xyz, "firstname": "xyz", "lastname": "xyz", "phone_num" : "xyz", "password": "xyz"}
   User.register(new User({
+    username: req.body.email,
     email: req.body.email,
     firstname: req.body.firstname,
     lastname: req.body.lastname,
