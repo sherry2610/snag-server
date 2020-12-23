@@ -59,7 +59,7 @@ router.post('/signup', (req, res, next) => { // { "email": xyz, "firstname": "xy
         res.statusCode = 400;
         res.setHeader('Content-Type', 'application/json');
         console.log("hereee");
-        res.json({ err: err, success: false });
+        res.json({ status: "before saving", err: err, success: false });
       }
       else {
         user.save((err, usr) => {
@@ -67,7 +67,7 @@ router.post('/signup', (req, res, next) => { // { "email": xyz, "firstname": "xy
             res.statusCode = 200;
           console.log("hereeeeeeeeeeeeeeeeeeeeee");
             res.setHeader('Content-Type', 'application/json');
-            res.json({ err: err, success: false });
+            res.json({ err: err, success: false, status: "after saving" });
             return;
           }
           passport.authenticate('local')(req, res, () => {
