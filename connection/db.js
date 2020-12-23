@@ -4,7 +4,7 @@ const URI = 'mongodb+srv://snagIt:snagitdb@cluster0.0ty7k.mongodb.net/forheroku?
 
 const connectDB = async () => {
   await mongoose.connect(URI,{useUnifiedTopology:false,useNewUrlParser:true, useFindAndModify: false})
-  console.log("connected to atlas!!!!")
+  console.log("connected to MONGO atlas!!!!")
 }
 
 module.exports = connectDB;
