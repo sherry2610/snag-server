@@ -14,7 +14,7 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
-router.get('/login', (req, res, next) => {
+router.post('/login', (req, res, next) => { //{ username, password }
   if (!req.body.username) {
 		res.send("Body doesn't contain username!");
 	}
@@ -58,21 +58,23 @@ router.post('/signup', (req, res, next) => { // { "email": xyz, "firstname": "xy
       if (err) {
         res.statusCode = 400;
         res.setHeader('Content-Type', 'application/json');
+        console.log("hereee");
         res.json({ err: err, success: false });
       }
       else {
-        user.save((err, user) => {
+        user.save((err, usr) => {
           if (err) {
             res.statusCode = 200;
+          console.log("hereeeeeeeeeeeeeeeeeeeeee");
             res.setHeader('Content-Type', 'application/json');
             res.json({ err: err, success: false });
             return;
           }
           passport.authenticate('local')(req, res, () => {
-            var token = authenticate.getToken({ _id: user._id });
+            var token = authenticate.getToken({ _id: usr._id });
             res.statusCode = 200;
             res.setHeader('Content-Type', 'application/json');
-            res.json({ success: true, user: user, token, status: 'Registration Successful'});
+            res.json({ success: true, user: usr, token, status: 'Registration Successful'});
           })
         })
       }

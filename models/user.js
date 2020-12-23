@@ -23,7 +23,6 @@ var UserSchema = Schema({
     phone_num: {
         type: String,
         required: true,
-        unique: true
     },
     admin: {
         type: Boolean,
