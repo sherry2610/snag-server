@@ -15,35 +15,35 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/login', (req, res, next) => { //{ username, password }
-  if (!req.body.username) {
-		res.send("Body doesn't contain username!");
-	}
-	if (!req.body.password) {
-		res.send("Body doesn't contain password!");
-  }
-  passport.authenticate('local', (err, user, info) => {
-		if (err)
-			return next(err);
+    if (!req.body.username) {
+        res.send("Body doesn't contain username!");
+    }
+    if (!req.body.password) {
+        res.send("Body doesn't contain password!");
+    }
+    passport.authenticate('local', (err, user, info) => {
+      if (err)
+          return next(err);
 
-		if (!user) {
-			res.statusCode = 401;
-			res.setHeader('Content-Type', 'application/json');
-			res.json({success: false, status: 'Login Failed', err: info});		
-		}
-		req.logIn(user, (err) => {
-			if (err) {
-				res.statusCode = 401;
-				res.setHeader('Content-Type', 'application/json');
-				res.json({success: false, status: 'Login Failed', err: 'Could not log in user!'});
-			}
-			
-			var token = authenticate.getToken({_id: req.user._id});
+      if (!user) {
+          res.statusCode = 401;
+          res.setHeader('Content-Type', 'application/json');
+          res.json({success: false, status: 'Login Failed', err: info});		
+      }
+      req.logIn(user, (err) => {
+          if (err) {
+            res.statusCode = 401;
+            res.setHeader('Content-Type', 'application/json');
+            res.json({success: false, status: 'Login Failed', err: 'Could not log in user!'});
+          }
+          
+          var token = authenticate.getToken({_id: req.user._id});
 
-			res.statusCode = 200;
-			res.setHeader('Content-Type', 'application/json');
-			res.json({success: true, user: user, token: token, status: 'Login Successful!'});
-	});
-	})(req, res, next);
+          res.statusCode = 200;
+          res.setHeader('Content-Type', 'application/json');
+          res.json({success: true, user: user, token: token, status: 'Login Successful!'});
+    });
+    })(req, res, next);
 })
 
 router.post('/signup', (req, res, next) => { // { "email": xyz, "firstname": "xyz", "lastname": "xyz", "phone_num" : "xyz", "password": "xyz"}
@@ -58,17 +58,14 @@ router.post('/signup', (req, res, next) => { // { "email": xyz, "firstname": "xy
       if (err) {
         res.statusCode = 400;
         res.setHeader('Content-Type', 'application/json');
-        console.log("hereee");
-        res.json({ status: "before saving", err: err, success: false });
+        res.json({ err: err, success: false });
       }
       else {
         user.save((err, usr) => {
           if (err) {
             res.statusCode = 200;
-          console.log("hereeeeeeeeeeeeeeeeeeeeee");
             res.setHeader('Content-Type', 'application/json');
-            res.json({ err: err, success: false, status: "after saving" });
-            return;
+            res.json({ err: err, success: false });
           }
           passport.authenticate('local')(req, res, () => {
             var token = authenticate.getToken({ _id: usr._id });
