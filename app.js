@@ -14,8 +14,6 @@ connectDB();
 
 // connected //
 
-
-
 var app = express();
 
 // view engine setup

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body>
+  <script>
+    function addproduct(){
+      // e.preventDefault();
+      pname = document.getElementById("pname").value;
+      pdesc = document.getElementById("pdesc").value;
+      price = document.getElementById("price").value;
+      cat = document.getElementById("categ").value;
+      image = document.getElementById("img").files[0];
+      var formdata = new FormData();
+      formdata.append("imageFile", image, image.name);
+      formdata.append("name", pname);
+      formdata.append("desc", pdesc);
+      formdata.append("categ", categ);
+      formdata.append("price", price);
+      var reqOptions = {
+          method: 'POST',
+          "contentType": false,
+          "processData": false,
+          body: formdata,
+          redirect: 'follow'
+      };
+
+      fetch("/products/add-product", reqOptions)
+      .then(res => {
+        if (res.ok){
+          return res.json()
+        }
+        else{
+          console.log("Error resp:", res);
+        }
+      })
+      .then(res => {
+        if (res.success){
+          alert("Product Uploaded Successfully!");
+          location.reload(true);
+        }
+      })
+
+      console.log("pname", pname);
+      console.log("pdesc", pdesc);
+      console.log("price", price);
+      console.log("cat",  cat);
+      console.log("image", image)
+    }
+  </script>
+  <div className="container" style="border: 5px double red; width: 50%; margin:50px auto;"> 
+    <div className="jumbotron text-center" > 
+      <h1 className="display-4">Product Uplaoder</h1>
+       <hr className="my-4" /> 
+      </div> 
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">KEY</th>
+            <th scope="col">VALUE</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>PRODUCT NAME</td>
+            <td>
+              <input type="text" id="pname" class="form-control" placeholder="Product Name" aria-label="Recipient's username" aria-describedby="basic-addon2">
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>PRODUCT DESCRIPTION :</td>
+            <td>
+              <input type="text" id="pdesc" class="form-control" placeholder="Description" aria-label="Recipient's username" aria-describedby="basic-addon2">
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td>PRODUCT PRICE :</td>
+            <td>
+              <input type="text" id="price" class="form-control" placeholder="Price" aria-label="Recipient's username" aria-describedby="basic-addon2">
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">4</th>
+            <td>PRODUCT CATEGORY :</td>
+            <td>
+              <select class="custom-select" id="categ">
+                <option selected>Choose...</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">4</th>
+            <td>PRODUCT IMAGE :</td>
+            <td>
+              <div className="input-group mb-3"> 
+                <div className="custom-file"> 
+                  <input id="img" type="file" accept="image/*" className="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" /> 
+                </div> 
+              </div> 
+            </td>
+          </tr>
+
+        </tbody>
+
+      </table>
+      <button type="button" className="btn btn-primary" onclick="addproduct()"> Upload </button> 
+
+    </div>
+</body>
+</html>
