@@ -25,7 +25,7 @@ const url = config.mongoUrl;
 // }, (err) => {	
 //   console.log(err);	
 // });	
- 
+
 connectDB();
 
 // connected //
