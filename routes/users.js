@@ -68,6 +68,7 @@ router.post('/signup', (req, res, next) => { // { "email": xyz, "firstname": "xy
             res.json({ err: err, success: false });
           }
           passport.authenticate('local')(req, res, () => {
+            console.log("here");
             var token = authenticate.getToken({ _id: usr._id });
             res.statusCode = 200;
             res.setHeader('Content-Type', 'application/json');
