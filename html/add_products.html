@@ -25,17 +25,24 @@
       var pdesc = document.getElementById("pdesc").value;
       var price = document.getElementById("price").value;
       var categories = ["Food", "Drink", "TopSeller", "New", "Candy", "Nicotine", "Snacks", ];
+      var final = [];
       for (var i = 0; i < 7; i++){
-        console.log(categories[i], document.getElementById(categories[i]).checked);
+        if( document.getElementById(categories[i]).checked){
+          if (categories[i] === "TopSeller"){
+            final.push("Top Seller");
+          }
+          else{
+            final.push(categories[i]);
+          }
+        }
       }
-      
 
       var image = document.getElementById("img").files[0];
       var formdata = new FormData();
       formdata.append("imageFile", image, image.name);
       formdata.append("name", pname);
       formdata.append("desc", pdesc);
-      formdata.append("categ", cat);
+      formdata.append("categ", final);
       formdata.append("price", price);
       var reqOptions = {
           method: 'POST',
