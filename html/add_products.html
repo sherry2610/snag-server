@@ -45,27 +45,21 @@
           redirect: 'follow'
       };
 
-      // fetch("/products/add-product", reqOptions)
-      // .then(res => {
-      //   if (res.ok){
-      //     return res.json()
-      //   }
-      //   else{
-      //     console.log("Error resp:", res);
-      //   }
-      // })
-      // .then(res => {
-      //   if (res.success){
-      //     alert("Product Uploaded Successfully!");
-      //     location.reload(true);
-      //   }
-      // })
-
-      console.log("pname", pname);
-      console.log("pdesc", pdesc);
-      console.log("price", price);
-      console.log("cat",  cat);
-      console.log("image", image)
+      fetch("/products/add-product", reqOptions)
+      .then(res => {
+        if (res.ok){
+          return res.json()
+        }
+        else{
+          console.log("Error resp:", res);
+        }
+      })
+      .then(res => {
+        if (res.success){
+          alert("Product Uploaded Successfully!");
+          location.reload(true);
+        }
+      })
     }
   </script>
   <div className="container" style="border: 5px double red; width: 50%; margin:50px auto;"> 
