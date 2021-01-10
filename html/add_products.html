@@ -13,12 +13,6 @@
 </head>
 <body>
   <script>
-        $(document).ready(function() {
-          require(['bootstrap-multiselect'], function(purchase){
-          $('#categ').multiselect();
-        });
-
-        });
     function addproduct(){
       // e.preventDefault();
       var pname = document.getElementById("pname").value;
@@ -36,7 +30,6 @@
           }
         }
       }
-
       var image = document.getElementById("img").files[0];
       var formdata = new FormData();
       formdata.append("imageFile", image, image.name);
