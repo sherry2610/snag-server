@@ -18,24 +18,26 @@
       var pname = document.getElementById("pname").value;
       var pdesc = document.getElementById("pdesc").value;
       var price = document.getElementById("price").value;
-      var categories = ["Food", "Drink", "TopSeller", "New", "Candy", "Nicotine", "Snacks", ];
+      var categories = {"Food": 0, "Drink": 0, "TopSeller": 0, "New": 0, "Candy": 0, "Nicotine": 0, "Snacks": 0};
       var final = [];
       for (var i = 0; i < 7; i++){
-        if( document.getElementById(categories[i]).checked){
-          if (categories[i] === "TopSeller"){
-            final.push("Top Seller");
-          }
-          else{
-            final.push(categories[i]);
-          }
+        if( document.getElementById(Object.keys(categories)[i]).checked){
+          categories[Object.keys(categories)[i]] = 1;
         }
       }
+      console.log(categories)
       var image = document.getElementById("img").files[0];
       var formdata = new FormData();
       formdata.append("imageFile", image, image.name);
       formdata.append("name", pname);
       formdata.append("desc", pdesc);
-      formdata.append("categ", final);
+      formdata.append("Food", document.getElementById("Food").checked);
+      formdata.append("Nicotine", document.getElementById("Nicotine").checked);
+      formdata.append("Snacks", document.getElementById("Snacks").checked);
+      formdata.append("Candy", document.getElementById("Candy").checked);
+      formdata.append("Drink", document.getElementById("Drink").checked);
+      formdata.append("New", document.getElementById("New").checked);
+      formdata.append("TopSeller", document.getElementById("TopSeller").checked);
       formdata.append("price", price);
       var reqOptions = {
           method: 'POST',

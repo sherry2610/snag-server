@@ -8,6 +8,7 @@ var passport = require('passport');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var productsRouter = require('./routes/products');
+var cartsRouter = require('./routes/carts');
 
 // const connectDB = require('./connection/db')
 // connectDB();
@@ -18,15 +19,15 @@ const connectDB = require('./connection/db')
 // connecting with database //	
 const mongoose = require('mongoose');	
 const url = config.mongoUrl;	
-// const connect = mongoose.connect(url, { useUnifiedTopology: true, useNewUrlParser: true, useFindAndModify: false });	
+const connect = mongoose.connect(url, { useUnifiedTopology: true, useNewUrlParser: true, useFindAndModify: false });	
 
-// connect.then((db) => {	
-//   console.log("Connected to the server.");	
-// }, (err) => {	
-//   console.log(err);	
-// });	
+connect.then((db) => {	
+  console.log("Connected to the server.");	
+}, (err) => {	
+  console.log(err);	
+});	
 
-connectDB();
+// connectDB();
 
 // connected //
 
@@ -46,6 +47,7 @@ app.use(passport.initialize());
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/products', productsRouter);
+app.use('/carts', cartsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

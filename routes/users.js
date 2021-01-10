@@ -5,6 +5,7 @@ var router = express.Router();
 
 const authenticate = require('../authenticate');
 var User = require('../models/user');
+var Cart = require('../models/cart');
 var passport = require('passport');
 
 router.use(bodyParser.json());
@@ -36,19 +37,20 @@ router.post('/login', (req, res, next) => { //{ username, password }
             res.setHeader('Content-Type', 'application/json');
             res.json({success: false, status: 'Login Failed', err: 'Could not log in user!'});
           }
-          
-          var token = authenticate.getToken({_id: req.user._id});
+          else{
+            var token = authenticate.getToken({_id: req.user._id});
 
-          res.statusCode = 200;
-          res.setHeader('Content-Type', 'application/json');
-          res.json({success: true, user: user, token: token, status: 'Login Successful!'});
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'application/json');
+            res.json({success: true, user: user, token: token, status: 'Login Successful!'});
+          }
     });
     })(req, res, next);
 })
 
-router.post('/signup', (req, res, next) => { // { "email": xyz, "firstname": "xyz", "lastname": "xyz", "phone_num" : "xyz", "password": "xyz"}
+router.post('/signup', (req, res, next) => { // {"username": xyz, "email": xyz, "firstname": "xyz", "lastname": "xyz", "phone_num" : "xyz", "password": "xyz"}
   User.register(new User({
-    username: req.body.email,
+    username: req.body.username,
     email: req.body.email,
     firstname: req.body.firstname,
     lastname: req.body.lastname,
@@ -67,8 +69,9 @@ router.post('/signup', (req, res, next) => { // { "email": xyz, "firstname": "xy
             res.setHeader('Content-Type', 'application/json');
             res.json({ err: err, success: false });
           }
-          passport.authenticate('local')(req, res, () => {
+          passport.authenticate('local')(req, res, async () => {
             console.log("here");
+            await Cart.create({user: usr._id});
             var token = authenticate.getToken({ _id: usr._id });
             res.statusCode = 200;
             res.setHeader('Content-Type', 'application/json');

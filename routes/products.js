@@ -51,7 +51,29 @@ router.get('/add', async(req, res, next) => {
 router.post('/add-product', upload.single('imageFile'), (req, res, next) => {
     console.log(req.file);
     var a = req.file.path.split('public/')[1];
-    Product.create({name: req.body.name, description: req.body.desc, image: a, price: req.body.price, category: req.body.categ})
+    var final = [];
+    if (req.body.Snacks === "true"){
+        final.push("Snacks");
+    }
+    if (req.body.Drink === "true"){
+        final.push("Drink");
+    }
+    if (req.body.New === "true"){
+        final.push("New");
+    }
+    if (req.body.TopSeller === "true"){
+        final.push("TopSeller");
+    }
+    if (req.body.Food === "true"){
+        final.push("Food");
+    }
+    if (req.body.Candy === "true"){
+        final.push("Candy");
+    }
+    if (req.body.Nicotine === "true"){
+        final.push("Nicotine");
+    }
+    Product.create({name: req.body.name, description: req.body.desc, image: a, price: req.body.price, category: final})
     .then(product => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');

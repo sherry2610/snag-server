@@ -22,7 +22,7 @@ var UserSchema = Schema({
     },
     phone_num: {
         type: String,
-        required: true,
+        required: true
     },
     admin: {
         type: Boolean,
