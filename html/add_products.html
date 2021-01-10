@@ -10,16 +10,16 @@
   <script>
     function addproduct(){
       // e.preventDefault();
-      pname = document.getElementById("pname").value;
-      pdesc = document.getElementById("pdesc").value;
-      price = document.getElementById("price").value;
-      cat = document.getElementById("categ").value;
-      image = document.getElementById("img").files[0];
+      var pname = document.getElementById("pname").value;
+      var pdesc = document.getElementById("pdesc").value;
+      var price = document.getElementById("price").value;
+      var cat = document.getElementById("categ").value;
+      var image = document.getElementById("img").files[0];
       var formdata = new FormData();
       formdata.append("imageFile", image, image.name);
       formdata.append("name", pname);
       formdata.append("desc", pdesc);
-      formdata.append("categ", categ);
+      formdata.append("categ", cat);
       formdata.append("price", price);
       var reqOptions = {
           method: 'POST',
