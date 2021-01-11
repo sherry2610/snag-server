@@ -17,17 +17,17 @@ const config = require('./config');
 const connectDB = require('./connection/db')	
 // const connectDB = require('./connection/db')
 // connecting with database //	
-// const mongoose = require('mongoose');	
-// const url = config.mongoUrl;	
-// const connect = mongoose.connect(url, { useUnifiedTopology: true, useNewUrlParser: true, useFindAndModify: false });	
+const mongoose = require('mongoose');	
+const url = config.mongoUrl;	
+const connect = mongoose.connect(url, { useUnifiedTopology: true, useNewUrlParser: true, useFindAndModify: false });	
 
-// connect.then((db) => {	
-//   console.log("Connected to the server.");	
-// }, (err) => {	
-//   console.log(err);	
-// });	
+connect.then((db) => {	
+  console.log("Connected to the server.");	
+}, (err) => {	
+  console.log(err);	
+});	
 
-connectDB();
+// connectDB();
 
 // connected //
 
