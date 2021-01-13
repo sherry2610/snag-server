@@ -15,6 +15,12 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
+router.get('/getuser', authenticate.verifyUser, (req, res, next) => {
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'application/json');
+    res.json({success: true, user: req.user});
+})
+
 router.post('/login', (req, res, next) => { //{ username, password }
     if (!req.body.username) {
         res.send("Body doesn't contain username!");
