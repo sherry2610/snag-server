@@ -77,7 +77,12 @@ router.post('/signup', (req, res, next) => { // {"username": xyz, "email": xyz, 
           }
           passport.authenticate('local')(req, res, async () => {
             console.log("here");
-            await Cart.create({user: usr._id});
+            if (req.body.cart){
+              await Cart.create({user: usr._id, items: req.body.cart});
+            }
+            else{
+              await Cart.create({user: usr._id});
+            }
             var token = authenticate.getToken({ _id: usr._id });
             res.statusCode = 200;
             res.setHeader('Content-Type', 'application/json');
@@ -88,5 +93,10 @@ router.post('/signup', (req, res, next) => { // {"username": xyz, "email": xyz, 
     }
   )
 })
+
+// router.post('/add-card', authenticate.verifyUser, (req, res, next) => {
+
+// })
+
 
 module.exports = router;

@@ -3,10 +3,14 @@ const Schema = mongoose.Schema;
 
 var OrderSchema = Schema({
     items: {type: [
-        {
+        {product: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Item'
-        }
+            ref: 'Product'
+        },
+        quantity: {
+            type: String,
+            default: '1'
+        }}
     ]},
     user: {
         type: mongoose.Schema.Types.ObjectId,

@@ -30,7 +30,17 @@ var UserSchema = Schema({
     },
     address: {
         type: String
-    }
+    },
+    cards: {type: [
+        {
+            card_token: {
+                type: String,
+            },
+            card_name: {
+                type: String,
+            }
+        }
+    ]}
 }, {
     timestamps: true
 });
