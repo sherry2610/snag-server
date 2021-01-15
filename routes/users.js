@@ -94,8 +94,30 @@ router.post('/signup', (req, res, next) => { // {"username": xyz, "email": xyz, 
   )
 })
 
-router.post('/add-card', authenticate.verifyUser, (req, res, next) => {
-
+router.post('/add-card', authenticate.verifyUser, async (req, res, next) => {
+  if (req.body.token){
+    res.statusCode = 400;
+    res.setHeader('Content-Type', 'application/json');
+    res.json({success: false, status: 'req.body.token not present'});
+  }
+  else if (req.body.card_name){
+    res.statusCode = 400;
+    res.setHeader('Content-Type', 'application/json');
+    res.json({success: false, status: 'req.body.card_name not present'});
+  }
+  else{
+    const customer = await stripe.customers.create({
+      source: req.body.token,
+      email: req.user.email,
+    });
+    User.findOneAndUpdate({_id: req.user._id}, {$push: {cards: {customer: customer, card_name: req.body.card_name}}}, {new: true})
+    .then(usr => {
+      res.statusCode = 200 ;
+      res.setHeader('Content-Type', 'application/json');
+      res.json({success: true, user: usr});
+    })
+    
+  }
 })
 
 

@@ -33,8 +33,8 @@ var UserSchema = Schema({
     },
     cards: {type: [
         {
-            card_token: {
-                type: String,
+            customer: {
+                type: Object,
             },
             card_name: {
                 type: String,
