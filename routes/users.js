@@ -94,9 +94,9 @@ router.post('/signup', (req, res, next) => { // {"username": xyz, "email": xyz, 
   )
 })
 
-// router.post('/add-card', authenticate.verifyUser, (req, res, next) => {
+router.post('/add-card', authenticate.verifyUser, (req, res, next) => {
 
-// })
+})
 
 
 module.exports = router;
