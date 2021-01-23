@@ -16,6 +16,15 @@ var OrderSchema = Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
+    tip: {
+        type: String
+    },
+    promo_code: {
+        type: String
+    },
+    delivery_address: {
+        type: String
+    }
 }, {
     timestamps: true
 });
