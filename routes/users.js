@@ -7,6 +7,7 @@ const authenticate = require('../authenticate');
 var User = require('../models/user');
 var Cart = require('../models/cart');
 var passport = require('passport');
+var stripe = require('../setting');
 
 router.use(bodyParser.json());
 
