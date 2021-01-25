@@ -45,7 +45,7 @@ router.put('/editcart', authenticate.verifyUser, async (req, res, next) => { // 
                 }
             }
             else{
-                if (quantity !== "0"){
+                if (val.quantity !== "0"){
                     await Cart.findOneAndUpdate({user: req.user._id}, {$push: {items: {product: val.product_id, quantity: val.quantity}}});
                 }
                 console.log(ind+1 === req.body.lst.length, ind+1, req.body.lst.length);
