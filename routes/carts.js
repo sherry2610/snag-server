@@ -23,12 +23,19 @@ router.put('/editcart', authenticate.verifyUser, async (req, res, next) => { // 
             console.log(val, ind);
             let mainCart = await Cart.findOne({user: req.user._id, "items.product": val.product_id});
             if (mainCart){
-                mainCart.items.forEach((v, i) => {
-                    if (mainCart.items[i].product.equals(val.product_id)){
-                        mainCart.items[i].quantity = val.quantity;
-                    }
-                })
-                await mainCart.save();
+                console.log(val, val.quantity === "0");
+                if (val.quantity === "0"){
+                    let cc = await Cart.findOneAndUpdate({user: req.user._id}, {$pull: {items: {product: val.product_id}}}, {multi: true, new: true});
+                    console.log("cc   ",cc);
+                }
+                else{
+                    mainCart.items.forEach((v, i) => {
+                        if (mainCart.items[i].product.equals(val.product_id)){
+                            mainCart.items[i].quantity = val.quantity;
+                        }
+                    })
+                    await mainCart.save();   
+                }
                 console.log(ind+1 === req.body.lst.length, ind+1, req.body.lst.length);
                 if (ind+1 === req.body.lst.length){
                     const cartt = await Cart.findOne({user: req.user._id});
@@ -38,8 +45,9 @@ router.put('/editcart', authenticate.verifyUser, async (req, res, next) => { // 
                 }
             }
             else{
-                
-                await Cart.findOneAndUpdate({user: req.user._id}, {$push: {items: {product: val.product_id, quantity: val.quantity}}});
+                if (quantity !== "0"){
+                    await Cart.findOneAndUpdate({user: req.user._id}, {$push: {items: {product: val.product_id, quantity: val.quantity}}});
+                }
                 console.log(ind+1 === req.body.lst.length, ind+1, req.body.lst.length);
                 if (ind+1 === req.body.lst.length){
                     const cartt = await Cart.findOne({user: req.user._id});
@@ -55,24 +63,44 @@ router.put('/editcart', authenticate.verifyUser, async (req, res, next) => { // 
         .then(mainCart => {
             console.log(mainCart);
             if (mainCart){
-                mainCart.items.forEach((val, i) => {
-                    if (mainCart.items[i].product.equals(req.body.product_id)){
-                        mainCart.items[i].quantity = req.body.quantity;
-                    }
-                })
-                mainCart.save((err, c) => {
-                    res.statusCode = 200;
-                    res.setHeader('Content-Type', 'application/json');
-                    res.json({success: true, cart: c});
-                })
+                if (req.body.quantity === "0"){
+                    Cart.findOneAndUpdate({user: req.user._id}, {$pull: {items: {product: req.body.product_id}}}, {new: true, multi: true})
+                    .then(c => {
+                        res.statusCode = 200;
+                        res.setHeader('Content-Type', 'application/json');
+                        res.json({success: true, cart: c});
+                    });
+                }
+                else{
+                    mainCart.items.forEach((val, i) => {
+                        if (mainCart.items[i].product.equals(req.body.product_id)){
+                            mainCart.items[i].quantity = req.body.quantity;
+                        }
+                    })
+                    mainCart.save((err, c) => {
+                        res.statusCode = 200;
+                        res.setHeader('Content-Type', 'application/json');
+                        res.json({success: true, cart: c});
+                    })
+                }
             }
             else{
-                Cart.findOneAndUpdate({user: req.user._id}, {$push: {items: {product: req.body.product_id, quantity: req.body.quantity}}}, {new: true})
-                .then(c => {
-                    res.statusCode = 200;
-                    res.setHeader('Content-Type', 'application/json');
-                    res.json({success: true, cart: c});
-                });
+                if (quantity !== "0"){
+                    Cart.findOneAndUpdate({user: req.user._id}, {$push: {items: {product: req.body.product_id, quantity: req.body.quantity}}}, {new: true})
+                    .then(c => {
+                        res.statusCode = 200;
+                        res.setHeader('Content-Type', 'application/json');
+                        res.json({success: true, cart: c});
+                    });
+                }
+                else{
+                    Cart.findOne({user: req.user._id})
+                    .then(c => {
+                        res.statusCode = 200;
+                        res.setHeader('Content-Type', 'application/json');
+                        res.json({success: true, cart: c});    
+                    })
+                }
             }
         });
     }
