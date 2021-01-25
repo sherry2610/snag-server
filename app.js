@@ -9,7 +9,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var productsRouter = require('./routes/products');
 var cartsRouter = require('./routes/carts');
-var ordersRouter = require('./routers/orders');
+var ordersRouter = require('./routes/orders');
 
 // const connectDB = require('./connection/db')
 // connectDB();
