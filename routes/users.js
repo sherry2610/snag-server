@@ -7,7 +7,7 @@ const authenticate = require('../authenticate');
 var User = require('../models/user');
 var Cart = require('../models/cart');
 var passport = require('passport');
-var stripe = require('../setting');
+var stri = require('../setting');
 
 router.use(bodyParser.json());
 
@@ -108,7 +108,7 @@ router.post('/add-card', authenticate.verifyUser, async (req, res, next) => {
   }
   else{
     console.log("mark1----------->>>>>>>>")
-    const customer = await stripe.customers.create({
+    const customer = await stri.customers.create({
       source: req.body.token,
       email: req.user.email,
     });
