@@ -107,8 +107,9 @@ router.post('/add-card', authenticate.verifyUser, async (req, res, next) => {
     res.json({success: false, status: 'req.body.card_name not present'});
   }
   else{
-    console.log("mark1----------->>>>>>>> stri",stri.customers)
-    const customer = await stri.customers.create({
+    const stripe = require('stripe')('sk_test_51IDRhaIdmUDlgC55MuxgIdgVkN6frav8XIvKBEhEC1XicV7VlI26zHfqWwItoZw3p4prGlLX7iEwmHxcswrGq8ti00HMHPtn8U');
+    console.log("mark1----------->>>>>>>> stri",stripe.customers)
+    const customer = await stripe.customers.create({
       source: req.body.token,
       email: req.user.email,
     });
