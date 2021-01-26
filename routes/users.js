@@ -107,7 +107,7 @@ router.post('/add-card', authenticate.verifyUser, async (req, res, next) => {
     res.json({success: false, status: 'req.body.card_name not present'});
   }
   else{
-    console.log("mark1----------->>>>>>>> stri",stri)
+    console.log("mark1----------->>>>>>>> stri",stri.customers)
     const customer = await stri.customers.create({
       source: req.body.token,
       email: req.user.email,
