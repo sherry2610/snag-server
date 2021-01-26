@@ -107,12 +107,15 @@ router.post('/add-card', authenticate.verifyUser, async (req, res, next) => {
     res.json({success: false, status: 'req.body.card_name not present'});
   }
   else{
+    console.log("mark1----------->>>>>>>>")
     const customer = await stripe.customers.create({
       source: req.body.token,
       email: req.user.email,
     });
+    console.log("mark2----------->>>>>>>>")
     User.findOneAndUpdate({_id: req.user._id}, {$push: {cards: {customer: customer, card_name: req.body.card_name}}}, {new: true})
     .then(usr => {
+      console.log("mark1----------->>>>>>>>")
       res.statusCode = 200 ;
       res.setHeader('Content-Type', 'application/json');
       res.json({success: true, user: usr});
