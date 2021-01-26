@@ -96,12 +96,12 @@ router.post('/signup', (req, res, next) => { // {"username": xyz, "email": xyz, 
 })
 
 router.post('/add-card', authenticate.verifyUser, async (req, res, next) => {
-  if (req.body.token){
+  if (!req.body.token){
     res.statusCode = 400;
     res.setHeader('Content-Type', 'application/json');
     res.json({success: false, status: 'req.body.token not present'});
   }
-  else if (req.body.card_name){
+  else if (!req.body.card_name){
     res.statusCode = 400;
     res.setHeader('Content-Type', 'application/json');
     res.json({success: false, status: 'req.body.card_name not present'});
