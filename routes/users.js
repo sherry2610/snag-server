@@ -108,7 +108,7 @@ router.post('/add-card', authenticate.verifyUser, async (req, res, next) => {
   }
   else{
     console.log("mark1----------->>>>>>>> stri",stri)
-    const customer = await stri.customer.create({
+    const customer = await stri.customers.create({
       source: req.body.token,
       email: req.user.email,
     });
