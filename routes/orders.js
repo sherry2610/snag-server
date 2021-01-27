@@ -30,11 +30,15 @@ router.post('/', authenticate.verifyUser, async (req, res, next) => {
         res.json({success: false, status: 'card_name not present'});
     }
     else{
+        console.log("----------->>>>>>>>111")
         let cartt = req.user.cart.map(item => {
             return {product: item.product, quantity: item.quantity};
         })
+        console.log("----------->>>>>>>>222")
         await Order.create({user: req.user._id, items: cartt});
+        console.log("----------->>>>>>>>333")
         await User.findOneAndUpdate({_id: req.user._id}, {$set: {carts: []}});
+        console.log("----------->>>>>>>>444")
         let charge;
         req.user.cards.map(async card => {
             if (card.card_name === req.body.card_name){
@@ -45,6 +49,7 @@ router.post('/', authenticate.verifyUser, async (req, res, next) => {
                 });
             }
         })
+        console.log("----------->>>>>>>>555")
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
         res.json({success: true, stripe_response: charge});
