@@ -19,12 +19,12 @@ router.get('/', authenticate.verifyUser, async (req, res, next) => {
 })
 
 router.post('/', authenticate.verifyUser, async (req, res, next) => {
-    if (req.body.amount){
+    if (!req.body.amount){
         res.statusCode = 400;
         res.setHeader('Content-Type', 'application/json');
         res.json({success: false, status: 'amount not present'});
     }
-    else if (req.body.card_name){
+    else if (!req.body.card_name){
         res.statusCode = 400;
         res.setHeader('Content-Type', 'application/json');
         res.json({success: false, status: 'card_name not present'});
