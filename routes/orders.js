@@ -20,33 +20,22 @@ router.get('/', authenticate.verifyUser, async (req, res, next) => {
 })
 
 router.post('/without-charge', authenticate.verifyUser, async (req, res, next) => {
-    if (!req.body.amount){
-        res.statusCode = 400;
-        res.setHeader('Content-Type', 'application/json');
-        res.json({success: false, status: 'amount not present'});
-    }
-    else if (!req.body.card_name){
-        res.statusCode = 400;
-        res.setHeader('Content-Type', 'application/json');
-        res.json({success: false, status: 'card_name not present'});
-    }
-    else{
         
-        let c = await Cart.findOne({user: req.user._id})
-        console.log("----------->>>>>>>>111",c)
-        let cartt = c.items.map(item => {
-            return {product: item.product, quantity: item.quantity};
-        })
-        console.log("----------->>>>>>>>222")
-        await Order.create({user: req.user._id, items: cartt});
-        console.log("----------->>>>>>>>333")
-        await Cart.findOneAndUpdate({user: req.user._id},{$set : {items: []}})
-        console.log("----------->>>>>>>>444")
+    let c = await Cart.findOne({user: req.user._id})
+    console.log("----------->>>>>>>>111",c)
+    let cartt = c.items.map(item => {
+        return {product: item.product, quantity: item.quantity};
+    })
+    console.log("----------->>>>>>>>222")
+    await Order.create({user: req.user._id, items: cartt});
+    console.log("----------->>>>>>>>333")
+    await Cart.findOneAndUpdate({user: req.user._id},{$set : {items: []}})
+    console.log("----------->>>>>>>>444")
 
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json');
-        res.json({success: true});
-    }
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'application/json');
+    res.json({success: true});
+
 })
 
 router.post('/', authenticate.verifyUser, async (req, res, next) => {
