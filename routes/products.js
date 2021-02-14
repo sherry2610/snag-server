@@ -9,7 +9,9 @@ const authenticate = require('../authenticate');
 var User = require('../models/user');
 var passport = require('passport');
 const Product = require('../models/product');
+const storagee = require('../firebase-config')
 
+const bucket = storagee.bucket();
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -49,36 +51,41 @@ router.get('/add', async(req, res, next) => {
 })
 
 router.post('/add-product', upload.single('imageFile'), (req, res, next) => {
-    console.log(req.file);
-    var a = req.file.path.split('public/')[1];
-    var final = [];
-    if (req.body.Snacks === "true"){
-        final.push("Snacks");
-    }
-    if (req.body.Drink === "true"){
-        final.push("Drink");
-    }
-    if (req.body.New === "true"){
-        final.push("New");
-    }
-    if (req.body.TopSeller === "true"){
-        final.push("TopSeller");
-    }
-    if (req.body.Food === "true"){
-        final.push("Food");
-    }
-    if (req.body.Candy === "true"){
-        final.push("Candy");
-    }
-    if (req.body.Nicotine === "true"){
-        final.push("Nicotine");
-    }
-    Product.create({name: req.body.name, description: req.body.desc, image: a, price: req.body.price, category: final})
-    .then(product => {
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json');
-        res.json({success: true, product: product});
+    var a = req.file.path.split('public/products/')[1];
+    bucket.upload(`./public/products/${a}`, function(err, file) {
+        var filepathh = `https://storage.googleapis.com/snaggg-9f621.appspot.com/${a}`
+        console.log("err", err);
+        console.log('fileresp', file);
+        var final = [];
+        if (req.body.Snacks === "true"){
+            final.push("Snacks");
+        }
+        if (req.body.Drink === "true"){
+            final.push("Drink");
+        }
+        if (req.body.New === "true"){
+            final.push("New");
+        }
+        if (req.body.TopSeller === "true"){
+            final.push("TopSeller");
+        }
+        if (req.body.Food === "true"){
+            final.push("Food");
+        }
+        if (req.body.Candy === "true"){
+            final.push("Candy");
+        }
+        if (req.body.Nicotine === "true"){
+            final.push("Nicotine");
+        }
+        Product.create({name: req.body.name, description: req.body.desc, image: filepathh, price: req.body.price, category: final})
+        .then(product => {
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'application/json');
+            res.json({success: true, product: product});
+        });
     });
+
 })
 
 router.get('/category/:cat', async (req, res, next) => {
