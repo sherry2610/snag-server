@@ -38,6 +38,9 @@
       formdata.append("Drink", document.getElementById("Drink").checked);
       formdata.append("New", document.getElementById("New").checked);
       formdata.append("TopSeller", document.getElementById("TopSeller").checked);
+      formdata.append("Smokes", document.getElementById("Smokes").checked);
+      formdata.append("Vapes", document.getElementById("Vapes").checked);
+      formdata.append("StudentEssentials", document.getElementById("StudentEssentials").checked);
       formdata.append("price", price);
       var reqOptions = {
           method: 'POST',
@@ -124,6 +127,15 @@
 
               <input type="checkbox" id="Snacks" name="Snacks" value="Snacks">
               <label for="vehicle3"> Snacks</label><br>
+
+              <input type="checkbox" id="Vapes" name="Vapes" value="Vapes">
+              <label for="Vapes"> Vapes</label><br>
+
+              <input type="checkbox" id="Smokes" name="Smokes" value="Smokes">
+              <label for="Smokes"> Smokes</label><br>
+
+              <input type="checkbox" id="StudentEssentials" name="StudentEssentials" value="StudentEssentials">
+              <label for="StudentEssentials"> Student Essentials</label><br>
             </td>
           </tr>
           <tr>

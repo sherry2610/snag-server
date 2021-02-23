@@ -78,6 +78,15 @@ router.post('/add-product', upload.single('imageFile'), (req, res, next) => {
         if (req.body.Nicotine === "true"){
             final.push("Nicotine");
         }
+        if (req.body.Vapes === "true"){
+            final.push("Vapes");
+        }
+        if (req.body.Smokes === "true"){
+            final.push("Smokes");
+        }
+        if (req.body.StudentEssentials === "true"){
+            final.push("Student Essential");
+        }
         Product.create({name: req.body.name, description: req.body.desc, image: filepathh, price: req.body.price, category: final})
         .then(product => {
             res.statusCode = 200;
