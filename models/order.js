@@ -27,7 +27,7 @@ var OrderSchema = Schema({
     },
     total: {
         type: Number
-    }
+    },
 }, {
     timestamps: true
 });

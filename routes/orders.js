@@ -57,7 +57,7 @@ router.post('/', authenticate.verifyUser, async (req, res, next) => {
             return {product: item.product, quantity: item.quantity};
         })
         console.log("----------->>>>>>>>222")
-        await Order.create({user: req.user._id, items: cartt, total: parseInt(req.body.amount)/100});
+        await Order.create({user: req.user._id, items: cartt, delivery_address: req.body.deliveryAddress, total: parseInt(req.body.amount)/100});
         console.log("----------->>>>>>>>333")
         await Cart.findOneAndUpdate({user: req.user._id},{$set : {items: []}})
         console.log("----------->>>>>>>>444")
