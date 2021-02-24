@@ -24,6 +24,9 @@ var OrderSchema = Schema({
     },
     delivery_address: {
         type: String
+    },
+    total: {
+        type: Number
     }
 }, {
     timestamps: true

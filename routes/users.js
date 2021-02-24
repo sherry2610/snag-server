@@ -8,6 +8,7 @@ var User = require('../models/user');
 var Cart = require('../models/cart');
 var passport = require('passport');
 var stri = require('../setting');
+const e = require('express');
 
 router.use(bodyParser.json());
 
@@ -94,6 +95,45 @@ router.post('/signup', (req, res, next) => { // {"username": xyz, "email": xyz, 
     }
   )
 })
+
+router.put('/editprofile', authenticate.verifyUser, async (req, res, next) => {
+  var user = await User.findOne({_id: req.user._id});
+  if (user){
+    user.firstname = req.body.firstname;
+    user.lastname = req.body.lastname;
+    user.email = req.body.email;
+    user.phone_num = req.body.phone_num;
+    user.save((err, usr) => {
+      res.statusCode = 400;
+      res.setHeader('Content-Type', 'application/json');
+      res.json({ success: true, user: usr, status: 'Update Successful'});
+    });
+  }
+  else{
+    res.statusCode = 400;
+    res.setHeader('Content-Type', 'application/json');
+    res.json({ success: false, status: 'Invalid JWT'});
+  }
+})
+
+router.put('/setpwd', authenticate.verifyUser, (req, res, next) => {
+  User.findOne({_id: req.user._id})
+  .then(user => {
+    user.setPassword(req.body.password, (err, usr) => {
+      if (!err) {
+        usr.save(async (err, usr) => {
+          if (err) {
+            console.log(err, 'while updating pwd')
+          }
+          res.statusCode = 200;
+          res.setHeader('Content-Type', 'application/json');
+          res.json({ success: true, status: 'Password Changed!'});
+        })
+      }
+    })
+  })
+});
+
 
 router.post('/add-card', authenticate.verifyUser, async (req, res, next) => {
   if (!req.body.token){
