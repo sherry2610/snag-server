@@ -16,7 +16,6 @@ router.get('/', authenticate.verifyUser, async (req, res, next) => {
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json');
     res.json({success: true, orders: ord});
-
 })
 
 router.post('/without-charge', authenticate.verifyUser, async (req, res, next) => {
@@ -50,14 +49,13 @@ router.post('/', authenticate.verifyUser, async (req, res, next) => {
         res.json({success: false, status: 'card_name not present'});
     }
     else{
-        
         let c = await Cart.findOne({user: req.user._id})
         console.log("----------->>>>>>>>111",c)
         let cartt = c.items.map(item => {
             return {product: item.product, quantity: item.quantity};
         })
         console.log("----------->>>>>>>>222")
-        await Order.create({user: req.user._id, items: cartt, delivery_address: req.body.deliveryAddress, total: parseInt(req.body.amount)/100});
+        await Order.create({user: req.user._id, items: cartt, delivery_address: req.body.deliveryAddress, total: parseInt(req.body.amount)/100, tip: req.body.tip, promo_code: req.body.promo_code});
         console.log("----------->>>>>>>>333")
         await Cart.findOneAndUpdate({user: req.user._id},{$set : {items: []}})
         console.log("----------->>>>>>>>444")
