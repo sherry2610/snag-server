@@ -102,6 +102,7 @@ router.put('/editprofile', authenticate.verifyUser, async (req, res, next) => {
     user.firstname = req.body.firstname;
     user.lastname = req.body.lastname;
     user.email = req.body.email;
+    user.username = req.body.email;
     user.phone_num = req.body.phone_num;
     user.save((err, usr) => {
       res.statusCode = 400;
